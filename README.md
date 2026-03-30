@@ -20,7 +20,7 @@ If you get `Illegal instruction`, switch to `taron-miner-avx2`.
 Connect to a mining pool. No node required.
 
 ```bash
-./taron-miner-avx2 --pool http://mypool.com:8083 --worker rig1 --threads 16
+./taron-miner-avx2 --pool http://mypool.com:8083 --worker rig1 --address tar1... --threads 16
 ```
 
 ### Options
