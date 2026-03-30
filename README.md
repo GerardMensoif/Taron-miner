@@ -1,8 +1,8 @@
 # TARON MINER
 
-CPU pool miner for the TARON blockchain. Standalone — no node required.
+CPU miner for the TARON blockchain — pool and solo mode. Standalone, no node required for pool mode.
 
-# 0% Fees
+## 0% Fees
 
 ## Which binary to use?
 
@@ -13,17 +13,14 @@ CPU pool miner for the TARON blockchain. Standalone — no node required.
 
 If you get `Illegal instruction`, switch to `taron-miner-avx2`.
 
-## Benchmarks
+---
 
-  | CPU | Threads | Hashrate |
-  |-----|---------|----------|
-  | Ryzen 9 9950X | 30 | 13.2 kH/s |
-  | Ryzen 9 7950X | 30 | 12.9 kH/s |
+## Pool mode
 
-## Usage
+Connect to a mining pool. No node required.
 
 ```bash
-./taron-miner-avx2 [OPTIONS]
+./taron-miner-avx2 --pool http://mypool.com:8083 --worker rig1 --threads 16
 ```
 
 ### Options
@@ -36,18 +33,57 @@ If you get `Illegal instruction`, switch to `taron-miner-avx2`.
 | `--threads` | `-t` | `0` (all physical cores) | Number of mining threads |
 | `--wallet` | `-w` | `~/.taron-testnet/pool-miner.key` | Wallet key file |
 
-### Examples
+---
+
+## Solo mode
+
+Mine directly on a TARON node. Requires a running node with RPC enabled.
+
+### 1. Start the node with RPC
 
 ```bash
-# Custom worker name and thread count
-./taron-miner-avx2 --pool http://mypool.com:8083 --worker rig1 --threads 16
-
-# Use an existing address
-./taron-miner-avx2 --pool http://mypool.com:8083 --address tar1abc123...
-
-# Use an existing wallet file
-./taron-miner-avx2 --pool http://mypool.com:8083 --wallet /path/to/my.key
+taron node start --rpc-port 8080
 ```
+
+### 2. Expose RPC over the network (if miner is on a different machine)
+
+The node RPC only listens on `127.0.0.1` by default. Use `socat` to expose it on the network:
+
+```bash
+# On the node machine
+socat TCP-LISTEN:8081,fork,reuseaddr TCP:127.0.0.1:8080
+```
+
+### 3. Start the miner
+
+```bash
+./taron-miner-avx2 --node http://192.168.1.x:8081 --address tar1... --threads 16
+```
+
+If the miner runs on the same machine as the node:
+
+```bash
+./taron-miner-avx2 --node http://localhost:8080 --threads 16
+```
+
+### Options
+
+| Flag | Short | Default | Description |
+|------|-------|---------|-------------|
+| `--node` | — | — | Node RPC URL |
+| `--address` | `-a` | — | Mining address (tar1...), overrides wallet file |
+| `--threads` | `-t` | `0` (all physical cores) | Number of mining threads |
+| `--wallet` | `-w` | `~/.taron-testnet/pool-miner.key` | Wallet key file |
+
+---
+
+## Wallet
+
+On first launch, a wallet is automatically generated and saved to `~/.taron-testnet/pool-miner.key`. Your mining address is displayed at startup.
+
+To reuse the same wallet on another machine, copy that file and pass it with `--wallet`, or simply pass your address with `--address`.
+
+---
 
 ## Output
 
@@ -58,7 +94,16 @@ TARON MINER v0.1.0
   Worker  : rig1
   Threads : 16
 
-[work] New block #147500 (share diff=19)
+[work] New block #147500 (share_diff=19)
 [share] #147500 accepted nonce=3849201748
 [stats] 13.2 kH/s | accepted=1 rejected=0 | blocks=0 | block=#147500
 ```
+
+---
+
+## Benchmarks
+
+| CPU | Threads | Hashrate |
+|-----|---------|----------|
+| Ryzen 9 9950X | 30 | 13.2 kH/s |
+| Ryzen 9 7950X | 30 | 12.9 kH/s |
