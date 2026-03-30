@@ -2,6 +2,8 @@
 
 CPU pool miner for the TARON blockchain. Standalone — no node required.
 
+# 0% Fees
+
 ## Which binary to use?
 
 | Binary | CPUs |
