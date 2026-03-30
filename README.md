@@ -13,6 +13,13 @@ CPU pool miner for the TARON blockchain. Standalone — no node required.
 
 If you get `Illegal instruction`, switch to `taron-miner-avx2`.
 
+## Benchmarks
+
+  | CPU | Threads | Hashrate |
+  |-----|---------|----------|
+  | Ryzen 9 9950X | 30 | 13.2 kH/s |
+  | Ryzen 9 7950X | 30 | 12.9 kH/s |
+
 ## Usage
 
 ```bash
