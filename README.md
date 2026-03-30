@@ -23,13 +23,11 @@ CPU pool miner for the TARON blockchain. Standalone — no node required.
 
 ```bash
 # Custom worker name and thread count
-./taron-miner --worker rig1 --threads 16
+./taron-miner --pool http://opti-pool.pro:8083 --worker rig1 --threads 16
 
-# Custom pool
-./taron-miner --pool http://mypool.com:8083 --worker rig1
 
 # Use an existing wallet file
-./taron-miner --wallet /path/to/my.key
+./taron-miner --pool http://opti-pool.pro:8083 --worker rig1 --threads 16 --wallet /path/to/my.key
 ```
 
 ## Wallet
