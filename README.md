@@ -77,14 +77,6 @@ If the miner runs on the same machine as the node:
 
 ---
 
-## Wallet
-
-On first launch, a wallet is automatically generated and saved to `~/.taron-testnet/pool-miner.key`. Your mining address is displayed at startup.
-
-To reuse the same wallet on another machine, copy that file and pass it with `--wallet`, or simply pass your address with `--address`.
-
----
-
 ## Output
 
 ```
